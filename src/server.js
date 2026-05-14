@@ -13,51 +13,51 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-// CORS CONFIG
+// ================= CORS =================
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
       "https://blog-frontend-eight-sigma.vercel.app",
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
-// HANDLE PREFLIGHT REQUESTS
-app.options("*", cors());
-
-// MIDDLEWARES
+// ================= MIDDLEWARE =================
 app.use(express.json());
 app.use(cookieParser());
 
-// HEALTH ROUTE
+// ================= HEALTH ROUTE =================
 app.get("/api/health", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
-    message: "API Running",
+    message: "API Running Successfully",
   });
 });
 
-// ROUTES
+// ================= ROUTES =================
 app.use("/api/auth", authRouter);
 app.use("/api/posts", postRouter);
 
-// ERROR HANDLERS
+// ================= ERROR HANDLERS =================
 app.use(notFound);
 app.use(errorHandler);
 
-// START SERVER
+// ================= START SERVER =================
 const startServer = async () => {
   try {
     await connectDB();
+
+    console.log("MongoDB Connected");
 
     app.listen(port, () => {
       console.log(`Server running on port ${port}`);
     });
   } catch (error) {
-    console.log("Server Error:", error);
+    console.log("Server Error:", error.message);
+    process.exit(1);
   }
 };
 
