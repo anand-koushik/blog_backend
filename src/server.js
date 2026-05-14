@@ -13,17 +13,12 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-const allowedOrigins = (
-  process.env.CLIENT_URL ||
-  "blog-frontend-eight-sigma.vercel.app"
-)
-  .split(",")
-  .map((origin) => origin.trim())
-  .filter(Boolean);
-
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: [
+      "http://localhost:5173",
+      "blog-frontend-eight-sigma.vercel.app",
+    ],
     credentials: true,
   })
 );
@@ -34,7 +29,7 @@ app.use(cookieParser());
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
-    message: "API Running Successfully",
+    message: "API Running",
   });
 });
 
@@ -52,7 +47,7 @@ const startServer = async () => {
       console.log(`Server running on port ${port}`);
     });
   } catch (error) {
-    console.log("Server Error:", error.message);
+    console.log(error);
   }
 };
 
