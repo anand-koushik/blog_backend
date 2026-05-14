@@ -15,7 +15,7 @@ const port = process.env.PORT || 5000;
 
 const allowedOrigins = (
   process.env.CLIENT_URL ||
-  "http://localhost:5173"
+  "blog-frontend-eight-sigma.vercel.app"
 )
   .split(",")
   .map((origin) => origin.trim())
